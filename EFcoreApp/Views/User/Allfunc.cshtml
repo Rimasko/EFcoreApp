@@ -1,0 +1,76 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using EFcoreApp.ViewModel
+@model AllInViewModel
+@{
+    ViewData["Title"] = "Страница со всеми переходами";
+    
+}
+<h2>List users</h2>
+
+<form method="get">
+    <div class="form-inline">
+        <label class="control-label">Имя</label>
+        @Html.TextBox("name",Model.FilterViewModel.SelectedName,htmlAttributes:new { @class="form-control"})
+
+        <label class="control-label">Компания</label>
+        @Html.DropDownList("company",Model.FilterViewModel.Companies as SelectList, htmlAttributes: new {@class="form-control" })
+        <input type="submit" value="Отфилльтровать" class="btn btn-default" />
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Allfunc" asp-route-sortOrder ="@Model.SortViewModel.NameSort"
+                   asp-route-name="@Model.FilterViewModel.SelectedName"
+                   asp-route-company="@Model.FilterViewModel.SelectedCompany">Имя</a>
+            </th>
+            <th>
+                <a asp-action="Allfunc" asp-route-sortOrder="@Model.SortViewModel.AgeSort"
+                   asp-route-name="@Model.FilterViewModel.SelectedName"
+                   asp-route-company="@Model.FilterViewModel.SelectedCompany">Возраст</a>
+            </th>
+            <th>
+                <a asp-action="Allfunc" asp-route-sortOrder="@Model.SortViewModel.CompanySort"
+                   asp-route-name="@Model.FilterViewModel.SelectedName"
+                   asp-route-company="@Model.FilterViewModel.SelectedCompany">Компания</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users)
+        { 
+            <tr>
+                <td>@item.Name</td><td>@item.Age</td><td>@item.Company.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Allfunc"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Allfunc"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

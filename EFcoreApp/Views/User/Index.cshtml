@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using EFcoreApp.Models;
+@model IndexViewModel
+<!--импортируем tag-хелперы проекта-->
+@addTagHelper "*, EFcoreApp"
+
+@{
+    ViewData["Title"] = "User Table";
+}
+
+<h3>Список пользователей</h3>
+<form method="get">
+    <div class="form-inline form-group-lg">
+        <label class="control-label">Имя:</label>
+        @Html.TextBox("name",Model.Name,htmlAttributes: new { @class="form-control" })
+
+        <label class="control-label">Компания: </label>
+        @Html.DropDownList("company", Model.Companies as SelectList,
+                htmlAttributes: new { @class = "form-control" })
+
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+
+</form>
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <th>
+                <sort-header action="Index" up="@Model.SortViewModel.Up"
+                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort">
+                    Имя
+                </sort-header>
+            </th>
+            <th>
+                <sort-header action="Index" up="@Model.SortViewModel.Up"
+                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.AgeSort">
+                    Возраст
+                </sort-header>
+            </th>
+            <th>
+                <sort-header action="Index" up="@Model.SortViewModel.Up"
+                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.CompanySort">
+                    Компания
+                </sort-header>
+            </th>
+        </tr>
+    </tbody>
+    @foreach(var User in Model.Users)
+    {
+        <tr>
+            <td>@User.Name</td><td>@User.Age</td><td>@User.Company.Name</td>
+        </tr>
+
+    }
+</table>

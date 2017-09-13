@@ -1,0 +1,92 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model EFcoreApp.MapsModels.ViewPlace
+@{
+    ViewData["Title"] = "Создание места";
+}
+
+<div class="row">
+    <div class="col-lg-4">
+        <form asp-action="AddPlace" asp-controller="GoogleMaps" method="post">
+            <div asp-validation-summary="ModelOnly">
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Название места</label>
+
+                <input asp-for="Name" type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+
+                <label asp-for="Title" class="control-label">Заголовок к вашему месту</label>
+
+                <input asp-for="Title" type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+
+                <label asp-for="Description" class="control-label">Описание места</label>
+
+                <input asp-for="Description" type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <div>для заполнения щелкните по месту которое хотите добавить </div>
+                <label asp-for="lat" class="control-label">долгота</label>
+
+                <input asp-for="lat" class="form-control" />
+                <label asp-for="lng" class="control-label">широта</label>
+
+                <input asp-for="lng" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <div id="map" style="height:500px"></div>
+    </div>
+</div>
+
+<script>
+    function initMap() {
+       
+        var options  ={
+            zoom:8,
+            center: { lat: 56.2360841, lng: 90.4903153} //amga
+        };
+
+        var myMap = new google.maps.Map(document.getElementById('map'), options);
+
+        google.maps.event.addListener(myMap, 'click', function(event){
+            addMarker(event.latLng, myMap);
+            var newList=$('<tr><td>'+k+'</td><td>'+event.latlng+' </td></tr>');
+            k++;
+            $('#table').append(newList);
+            console.log(newList.html());
+        });
+
+        function addMarker(location,propertis) {
+            var marker = new google.maps.Marker(
+                {
+                    position:location,
+                    map:myMap,
+                    icon: propertis.icon,
+                    draggable:true,
+                    title:"Drag me!"
+
+
+                });
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<h1>lat and ln<h1><p>' + marker.position + '<p>'
+            }
+            );
+            marker.addListener('click',function(){infoWindow.open(myMap,marker)});
+
+        }
+
+
+
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAcm6zassSMfAgzO8jf6i-Z-xJjrNt4_A&callback=initMap"></script>

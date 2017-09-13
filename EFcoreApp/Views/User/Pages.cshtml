@@ -1,0 +1,34 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using EFcoreApp.Models
+@model EFcoreApp.Models.PagesActionViewModel
+@{
+    ViewData["Title"] = "Работа со страницами";
+}
+<h1>Список пользователей</h1>
+<table class="table">
+    <tr><th>Имя</th><th>Возраст</th><th>Компания</th></tr>
+    @foreach (User u in Model.Users)
+    {
+        <tr><td>@u.Name</td><td>@u.Age</td><td>@u.Company.Name</td></tr>
+    }
+</table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Pages"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Pages"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using EFcoreApp.MapsModels
+@model Place
+@{
+    ViewData["Title"] = Model.Title;
+}
+<style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+        height: 300px;
+    }
+
+</style>
+
+<div>
+    <h3>@Model.Name</h3>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="box" id="map"> </div>
+        <script>
+      
+      function initMap() {
+          var myMap = new google.maps.Map(document.getElementById('map'), {
+              center: { lat: @Model.lat.ToString().Replace(",","."), lng: @Model.lng.ToString().Replace(",", ".") },
+          zoom: 9
+          });
+            var marker = new google.maps.Marker({
+                    position: {lat: @Model.lat.ToString().Replace(",", "."),lng: @Model.lng.ToString().Replace(",", ".")},
+                    map: myMap,
+                    draggable: false,
+                    title: 'Ваше место на карте. Нажми на меня!'
+                });
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<h3>@Model.Name</h3><div>@Model.Description</div>'
+            }
+            );
+            marker.addListener('click', function () { infoWindow.open(myMap, marker) });
+      }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAcm6zassSMfAgzO8jf6i-Z-xJjrNt4_A&callback=initMap"
+                async defer></script>
+    </div>
+    <div class="col-lg-4">
+    <h4> Описание места</h4>
+    @Model.Description</div>
+
+</div>
+<h3> Фотографии</h3>
+<div class="row">
+    
+    <div class="col-lg-3" style="width:50px; height:50px; background-color:red">sd</div>
+    <div  class="col-lg-3"style="width:50px; height:50px; background-color:blue">asdasd</div>
+    <div class="col-lg-3" style="width:50px; height:50px; background-color:green">asdasd</div>
+</div>

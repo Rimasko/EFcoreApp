@@ -1,0 +1,27 @@
+﻿@model IEnumerable<EFcoreApp.Models.Phone>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<a asp-action="Create">Добавить модель</a>
+<div>
+    <table class="table">
+      
+        @foreach (var phone in Model)
+        { 
+            <tr>
+                <td>@phone.Name</td>
+            
+            
+                <td><a asp-action="Details" asp-controller="Home" asp-route-id="@phone.Id"> Подробнее</a></td>
+                <td>
+                    <a asp-action="Delete" asp-controller="Home" asp-route-id="@phone.Id"> Удалить</a>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Home" asp-route-id="@phone.Id">Изменить</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+

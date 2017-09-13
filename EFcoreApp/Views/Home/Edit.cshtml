@@ -1,0 +1,50 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model EFcoreApp.Models.Phone
+@{
+    ViewData["Title"] = "Редактирование " + Model.Name;
+}
+<div class="row">
+    <div class="col-md-3">
+        <h1>Здесь картинка</h1>
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>Производитель</dt>
+            <dd>@Model.Company</dd>
+
+            <dt>Цена</dt>
+            <dd>@Model.Price</dd>
+        </dl>
+    </div>
+</div>
+<h2>Новая информация</h2>
+<div>
+    <form asp-action="Edit" asp-controller="Home" asp-route-id="@Model.Id" method ="post">
+        <div asp-validation-summary="ModelOnly">
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Название</label>
+
+            <input asp-for="Name" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+
+            <label asp-for="Price" class="control-label">Цена</label>
+
+            <input asp-for="Price" type="number" class="form-control" />
+        </div>
+        <div class="form-group">
+
+            <label asp-for="Company" class="control-label">Company</label>
+
+            <input asp-for="Company" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Send" class="btn btn-default" />
+        </div>
+    </form>
+</div>
+
